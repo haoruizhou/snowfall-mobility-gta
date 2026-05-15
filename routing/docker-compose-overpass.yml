@@ -1,0 +1,43 @@
+version: '3.8'
+
+# Local Overpass API serving the Ontario OSM extract.
+# Used to look up road classifications (highway tags) for OSRM route segments.
+#
+# First run: set OVERPASS_MODE=init to build the database from the OSM planet file,
+# then restart with OVERPASS_MODE=serve.
+#
+#   docker compose -f docker-compose-overpass.yml up -d
+
+volumes:
+  overpass-db:
+
+services:
+  overpass:
+    platform: linux/amd64
+    image: wiktorn/overpass-api:latest
+    container_name: overpass
+    ports:
+      - "12345:80"
+    volumes:
+      - overpass-db:/db
+    environment:
+      - OVERPASS_META=no
+      - OVERPASS_MODE=serve
+      - OVERPASS_PLANET_URL=http://download.geofabrik.de/north-america/canada/ontario-latest.osm.bz2
+      - OVERPASS_USE_AREAS=false
+      - OVERPASS_UPDATE_INTERVAL=0
+      - OVERPASS_DIFF_URL=
+      - OVERPASS_UPDATE_SLEEP=0
+      - OVERPASS_PLANET_PREPROCESS=chmod og+rx /db
+      - OVERPASS_RATE_LIMIT=0
+    healthcheck:
+      test: ["CMD-SHELL", "curl --noproxy '*' -qf 'http://localhost/api/interpreter?data=[out:json];node(1);out;' | jq '.generator' | grep -q Overpass || exit 1"]
+      interval: 1m
+      retries: 5
+      start_period: 5m
+      timeout: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+          memory: 8G

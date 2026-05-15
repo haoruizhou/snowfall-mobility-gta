@@ -1,0 +1,175 @@
+version: '3.8'
+
+# 16 parallel OSRM instances on ports 5000–5015.
+# Routes are distributed across instances in round-robin to maximise throughput.
+#
+# Prerequisites:
+#   1. Download the Ontario OSM extract:
+#      wget https://download.geofabrik.de/north-america/canada/ontario-latest.osm.pbf
+#   2. Pre-process with OSRM (MLD pipeline):
+#      docker run -t -v "$(pwd):/data" osrm/osrm-backend osrm-extract -p /opt/car.lua /data/ontario-latest.osm.pbf
+#      docker run -t -v "$(pwd):/data" osrm/osrm-backend osrm-partition /data/ontario-latest.osrm
+#      docker run -t -v "$(pwd):/data" osrm/osrm-backend osrm-customize /data/ontario-latest.osrm
+#   3. Place the processed files in this directory, then:
+#      docker compose -f docker-compose-osrm.yml up -d
+
+services:
+  osrm-0:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-0
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5000:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-1:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-1
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5001:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-2:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-2
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5002:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-3:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-3
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5003:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-4:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-4
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5004:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-5:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-5
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5005:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-6:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-6
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5006:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-7:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-7
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5007:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-8:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-8
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5008:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-9:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-9
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5009:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-10:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-10
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5010:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-11:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-11
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5011:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-12:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-12
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5012:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-13:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-13
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5013:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-14:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-14
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5014:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
+
+  osrm-15:
+    image: osrm/osrm-backend:latest
+    container_name: osrm-backend-15
+    restart: always
+    volumes:
+      - .:/data
+    ports:
+      - "5015:5000"
+    command: osrm-routed --algorithm mld /data/ontario-latest.osrm
